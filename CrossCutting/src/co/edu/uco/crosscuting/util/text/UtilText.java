@@ -9,15 +9,15 @@ public class UtilText {
     public boolean isNull(String value){
         return getUtilObject().isNull(value);
     }
-    private static String getDefault(String value, String defaultvalue){
+    public static String getDefault(String value, String defaultvalue){
         return getUtilObject().getDefault(value,defaultvalue);
     }
 
-    private static UtilText getUtilObject() {
+    public static UtilText getUtilObject() {
         return UtilText.getUtilObject();
     }
 
-    private static String getDefault(String value){
+    public static String getDefault(String value){
         return getDefault(value,EMPTY);
     }
     public static String trim(String value){
