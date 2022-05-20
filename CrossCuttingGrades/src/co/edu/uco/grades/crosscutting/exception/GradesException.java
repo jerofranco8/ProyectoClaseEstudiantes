@@ -19,12 +19,17 @@ public class GradesException extends GeneralException {
 	}
 
 	public static GradesException buildUserException(String userMessage) {
-		return new GradesException(userMessage, userMessage, null, null, null);
+		return new GradesException(userMessage, userMessage, null, ExceptionType.BUSINESS, null);
 	}
 
-	public static GradesException buildTechnicalMessage(String technicalMessage) {
-		return new GradesException(null, technicalMessage, null, null, null);
+	public static GradesException buildTechnicalException(String technicalMessage) {
+		return new GradesException(null, technicalMessage, null, ExceptionType.TECHNICAL, null);
 	}
+	
+	public static GradesException buildTechnicalException(String technicalMessage, Exception rootException, ExceptionLocation location) {
+		return new GradesException(null, technicalMessage, rootException, ExceptionType.TECHNICAL, location);
+	}
+	
 	public static GradesException build(String userMessage, String technicalMessage_) {
 		return new GradesException(userMessage, technicalMessage_, null, null, null);
 	}

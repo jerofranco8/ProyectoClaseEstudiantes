@@ -3,9 +3,15 @@ package co.edu.uco.grades.data.factory.azuresql;
 import co.edu.uco.crosscuting.util.object.UtilObject;
 import co.edu.uco.crosscuting.util.sql.UtilConnection;
 import co.edu.uco.grades.crosscutting.exception.GradesException;
+import co.edu.uco.grades.crosscutting.exception.enumeracion.ExceptionLocation;
+import co.edu.uco.grades.crosscutting.exception.enumeracion.ExceptionType;
 import co.edu.uco.grades.data.dao.StundentDAO;
 import co.edu.uco.grades.data.factory.DAOFactory;
+
+import java.net.Socket;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class AzureSqlDAOFactory extends DAOFactory {
 
@@ -16,41 +22,107 @@ public class AzureSqlDAOFactory extends DAOFactory {
 	}
 
 	@Override
-	public void commit() {
-		// TODO Auto-generated method stub
+	protected void openConnection() {
 
-	}
+		String stringConnection = "jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser;password=4c4d3m1cDmlUs3r;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
-	@Override
-	public void rollback() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void openConnection() {
-		if (!UtilObject.getUtilObject().isNull(connection) && !UtilConnection.isClosed(connection)) {
-			throw GradesException.buildTechnicalMessage("it's not possible open a connection because its already is open");
+		try {
+			connection = DriverManager.getConnection(stringConnection);
+		} catch (SQLException exception) {
+			throw GradesException.buildTechnicalException("There was a problem trying to get the connection with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		} catch (Exception exception) {
+			throw GradesException.buildTechnicalException("An unexpected problem has ocurred trying to get the connection with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
 		}
+	}
 
+	@Override
+	protected Connection getConnection() {
+		return connection;
 	}
 
 	@Override
 	public void closeConnection() {
-		// TODO Auto-generated method stub
+		if (UtilConnection.isClosed(getConnection())) {
+			throw GradesException.buildTechnicalException("It's not possible close a connection because its already is closed");
+		}
 
+		try {
+			getConnection().close();
+		} catch (SQLException exception) {
+			throw GradesException.buildTechnicalException("There was a problem trying to close the connection with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		} catch (Exception exception) {
+			throw GradesException.buildTechnicalException("An unexpected problem has ocurred trying to close the connection with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		}
 	}
 
 	@Override
-	public void getConnection() {
-		// TODO Auto-generated method stub
+	public void initTransaction() {
+		if (UtilConnection.isClosed(getConnection())) {
+			throw GradesException.buildTechnicalException("It's not possible to init the transaction because the connection is closed");
+		}
 
+		try {
+
+			if (!getConnection().getAutoCommit()) {
+				throw GradesException.buildTechnicalException("It's not possible to init the transaction because it was already initiated");
+			}
+
+			getConnection().setAutoCommit(false);
+		} catch (SQLException exception) {
+			throw GradesException.buildTechnicalException("There was a problem trying to init the transaction with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		} catch (Exception exception) {
+			throw GradesException.buildTechnicalException("An unexpected problem has ocurred trying to init the transaction with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		}
 	}
 
 	@Override
-	public StundentDAO getStundentDAO() {
-		// TODO Auto-generated method stub
+	public void commitTransaction() {
+		if (UtilConnection.isClosed(getConnection())) {
+			throw GradesException.buildTechnicalException("It's not possible to commit the transaction because the connection is closed");
+		}
+
+		try {
+			if (getConnection().getAutoCommit()) {
+				throw GradesException.buildTechnicalException("It's not possible to commit the transaction because the database is managing the transaction");
+			}
+
+			getConnection().commit();
+		} catch (GradesException exception) {
+			throw exception;
+		} catch (SQLException exception) {
+			throw GradesException.buildTechnicalException("There was a problem trying to commit the transaction with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		} catch (Exception exception) {
+			throw GradesException.buildTechnicalException("An unexpected problem has ocurred trying to commit the transaction with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		}
+	}
+
+	@Override
+	public void rollbackTransaction() {
+		if (UtilConnection.isClosed(getConnection())) {
+			throw GradesException.buildTechnicalException("It's not possible to rollback the transaction because the connection is closed");
+		}	
+
+		try {
+
+			if (getConnection().getAutoCommit()) {
+				throw GradesException.buildTechnicalException("It's not possible to rollback the transaction because the database is managing the transaction");
+			}
+
+			getConnection().rollback();
+		} catch (GradesException exception) {
+			throw exception;
+		} catch (SQLException exception) {
+			throw GradesException.buildTechnicalException("There was a problem trying to rollback the transaction with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		} catch (Exception exception) {
+			throw GradesException.buildTechnicalException("An unexpected problem has ocurred trying to rollback the transaction with sql server at jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser", exception, ExceptionLocation.DATA);
+		}
+	}
+
+	@Override
+	public StundentDAO getStudentDAO() {
+
 		return null;
 	}
+
 
 }

@@ -3,7 +3,7 @@ package co.edu.uco.grade.dto;
 public class StudentDTO {
 
 	private int id;
-	private String nameStuden;
+	private String nameStudent;
 
 	public int getId() {
 		return id;

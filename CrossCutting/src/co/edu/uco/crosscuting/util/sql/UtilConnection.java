@@ -23,4 +23,7 @@ public class UtilConnection {
 			throw GeneralException.build("Problems trying to validate if conncection was cloased!");
 		}
 	}
+	public static  boolean isOpen(Connection connection) {
+		return (!UtilObject.getUtilObject().isNull(connection) && !isClosed(connection));
+	}
 }
