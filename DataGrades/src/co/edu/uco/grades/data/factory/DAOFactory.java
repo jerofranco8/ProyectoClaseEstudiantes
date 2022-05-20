@@ -5,6 +5,7 @@ import java.sql.Connection;
 
 import javax.swing.AbstractAction;
 
+import co.edu.uco.grades.data.dao.IdTypeDAO;
 import co.edu.uco.grades.data.dao.StundentDAO;
 
 public abstract class DAOFactory {
@@ -24,6 +25,8 @@ public abstract class DAOFactory {
 	public abstract void commitTransaction();
 
 	public abstract void rollbackTransaction();
-	
+
 	public abstract StundentDAO getStudentDAO();
+
+	public abstract IdTypeDAO getIdTypeDAO();
 }

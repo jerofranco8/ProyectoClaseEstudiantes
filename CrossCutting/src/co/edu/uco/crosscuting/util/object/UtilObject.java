@@ -18,6 +18,6 @@ public class UtilObject {
 
 	public <T> T getDefault(T object, T defaultValue) {
 		return isNull(object) ? defaultValue : object;
-	}
 
+	}
 }

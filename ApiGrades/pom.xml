@@ -36,7 +36,7 @@
 
 		<dependency>
 			<groupId>co.edu.co.grades</groupId>
- 			<artifactId>CrossCutting</artifactId>
+ 			<artifactId>CrossCuttingGrades</artifactId>
   			<version>0.0.1-SNAPSHOT</version>	
 		</dependency>
 		

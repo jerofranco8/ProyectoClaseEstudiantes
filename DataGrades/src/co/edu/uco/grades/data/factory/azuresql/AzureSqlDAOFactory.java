@@ -5,7 +5,10 @@ import co.edu.uco.crosscuting.util.sql.UtilConnection;
 import co.edu.uco.grades.crosscutting.exception.GradesException;
 import co.edu.uco.grades.crosscutting.exception.enumeracion.ExceptionLocation;
 import co.edu.uco.grades.crosscutting.exception.enumeracion.ExceptionType;
+import co.edu.uco.grades.data.dao.IdTypeDAO;
 import co.edu.uco.grades.data.dao.StundentDAO;
+import co.edu.uco.grades.data.dao.azuresql.IdTypeAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.StudentAzureSqlDAO;
 import co.edu.uco.grades.data.factory.DAOFactory;
 
 import java.net.Socket;
@@ -100,7 +103,7 @@ public class AzureSqlDAOFactory extends DAOFactory {
 	public void rollbackTransaction() {
 		if (UtilConnection.isClosed(getConnection())) {
 			throw GradesException.buildTechnicalException("It's not possible to rollback the transaction because the connection is closed");
-		}	
+		}
 
 		try {
 
@@ -120,9 +123,11 @@ public class AzureSqlDAOFactory extends DAOFactory {
 
 	@Override
 	public StundentDAO getStudentDAO() {
-
-		return null;
+		return StudentAzureSqlDAO.build(getConnection());
 	}
 
-
+	@Override
+	public IdTypeDAO getIdTypeDAO() {
+		return IdTypeAzureSqlDAO.build(getConnection());
+	}
 }

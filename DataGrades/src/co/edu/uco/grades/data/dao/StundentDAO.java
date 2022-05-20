@@ -4,13 +4,13 @@ import co.edu.uco.grade.dto.StudentDTO;
 
 public interface StundentDAO {
 	
-	void create(StudentDTO stundent);
-	
+	void create(StudentDTO student);
+
 	void update(StudentDTO student);
-	
-	void Delete(int id);
-	
-	void find(StudentDTO stundent);
+
+	void delete(int id);
+
+	void find(StudentDTO student);
 	
 	
 }
