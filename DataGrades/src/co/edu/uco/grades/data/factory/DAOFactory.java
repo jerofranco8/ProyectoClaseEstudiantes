@@ -5,13 +5,16 @@ import java.sql.Connection;
 
 import javax.swing.AbstractAction;
 
+import com.microsoft.sqlserver.jdbc.SQLServerColumnEncryptionAzureKeyVaultProvider;
+
 import co.edu.uco.grades.data.dao.IdTypeDAO;
 import co.edu.uco.grades.data.dao.StundentDAO;
+import co.edu.uco.grades.data.factory.azuresql.AzureSqlDAOFactory;
 
 public abstract class DAOFactory {
 	
 	public static DAOFactory getDaoFactory() {
-		return null;
+		return AzureSqlDAOFactory.create();
 	}
 
 	protected abstract void openConnection();

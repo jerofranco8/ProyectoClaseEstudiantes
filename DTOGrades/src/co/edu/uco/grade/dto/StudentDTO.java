@@ -42,7 +42,7 @@ public class StudentDTO {
 
 	public void setIdNumber(String idNumber) {
 		this.idNumber = UtilText.getDefault(idNumber);
-		;
+		
 	}
 
 	public IdTypeDTO getIdType() {
