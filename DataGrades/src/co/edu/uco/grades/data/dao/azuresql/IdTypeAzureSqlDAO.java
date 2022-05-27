@@ -54,6 +54,7 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 
 			preparedStatement.setString(1, idType.getName());
+			preparedStatement.setInt(2, idType.getId());
 
 			preparedStatement.executeUpdate();
 
@@ -78,10 +79,10 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 
 		} catch (SQLException exception) {
 			throw GradesException.buildTechnicalDataException(
-					"There was a problem trying to delete the new IdType on Azure SQL Server", exception);
+					"There was a problem trying to delete the a IdType on Azure SQL Server", exception);
 		} catch (Exception exception) {
 			throw GradesException.buildTechnicalDataException(
-					"An unexpected problem has ocurred trying to delete the new IdType on Azure SQL Server", exception);
+					"An unexpected problem has ocurred trying to delete a IdType on Azure SQL Server", exception);
 		}
 
 	}

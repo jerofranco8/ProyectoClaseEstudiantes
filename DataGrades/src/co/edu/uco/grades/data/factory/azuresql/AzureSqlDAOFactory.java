@@ -5,8 +5,11 @@ import co.edu.uco.crosscuting.util.sql.UtilConnection;
 import co.edu.uco.grades.crosscutting.exception.GradesException;
 import co.edu.uco.grades.crosscutting.exception.enumeracion.ExceptionLocation;
 import co.edu.uco.grades.crosscutting.exception.enumeracion.ExceptionType;
+import co.edu.uco.grades.data.dao.CourseDAO;
 import co.edu.uco.grades.data.dao.IdTypeDAO;
+import co.edu.uco.grades.data.dao.ProfessorDAO;
 import co.edu.uco.grades.data.dao.StundentDAO;
+import co.edu.uco.grades.data.dao.SubjectDAO;
 import co.edu.uco.grades.data.dao.azuresql.IdTypeAzureSqlDAO;
 import co.edu.uco.grades.data.dao.azuresql.StudentAzureSqlDAO;
 import co.edu.uco.grades.data.factory.DAOFactory;
@@ -133,5 +136,23 @@ public class AzureSqlDAOFactory extends DAOFactory {
 	@Override
 	public IdTypeDAO getIdTypeDAO() {
 		return IdTypeAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public CourseDAO getCourseDAO() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProfessorDAO getProfessorDAO() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SubjectDAO getSubjectDAO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

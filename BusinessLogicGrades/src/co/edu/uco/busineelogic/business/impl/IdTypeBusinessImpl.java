@@ -12,12 +12,13 @@ public class IdTypeBusinessImpl implements IdTypeBusiness{
 
 	
 	private DAOFactory daoFactory;
-	
+
 	public IdTypeBusinessImpl(DAOFactory daoFactory) {
 		if (UtilObject.getUtilObject().isNull(daoFactory)) {
-			throw GradesException.buildTechnicalBusinessLogicException("It's no possible create a IdTypeBusinessImpl whem the DAOfactory is null");
+			throw GradesException.buildTechnicalBusinessLogicException(
+					"It's no possible create a IdTypeBusinessImpl whem the DAOfactory is null");
 		}
-		
+
 		this.daoFactory = daoFactory;
 	}
 	
